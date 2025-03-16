@@ -1,54 +1,43 @@
-# React + TypeScript + Vite
+# Proyecto Web - React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Descripción
+Este proyecto es una aplicación web desarrollada con React, TypeScript y Vite. La estructura del proyecto sigue buenas prácticas para el desarrollo modular y escalable.
 
-Currently, two official plugins are available:
+## Tecnologías utilizadas
+- **React**: Librería para la construcción de interfaces de usuario.
+- **TypeScript**: Lenguaje de programación tipado que mejora la calidad del código.
+- **Vite**: Herramienta de construcción rápida y eficiente.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Estructura del proyecto
+```
+├── src
+│   ├── componentes/  # Componentes reutilizables
+│   ├── paginas/      # Páginas principales
+│   ├── utilidades/   # Funciones y helpers
+│   ├── main.tsx      # Punto de entrada principal
+│   ├── App.tsx       # Componente principal
+│
+├── public/           # Archivos estáticos
+├── package.json      # Configuración de dependencias
+├── tsconfig.json     # Configuración de TypeScript
+├── vite.config.ts    # Configuración de Vite
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Instalación y Ejecución
+1. Clonar el repositorio:
+   ```sh
+   git clone https://github.com/KevinMartinez-145/proyectoHospital.git
+   cd proyectoHospital
+   ```
+2. Instalar dependencias:
+   ```sh
+   npm install
+   ```
+3. Ejecutar el servidor de desarrollo:
+   ```sh
+   npm run dev
+   ```
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Configuración de ESLint
+Este proyecto incluye una configuración básica de ESLint para mantener un código limpio y consistente. Si deseas expandir la configuración, puedes habilitar reglas adicionales en `eslint.config.js`.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
