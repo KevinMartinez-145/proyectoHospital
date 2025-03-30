@@ -1,33 +1,77 @@
-import { useState } from "react";
-import { Button } from "./components/ui/button";
+// src/App.tsx
 
-export default function App() {
-  const [count, setCount] = useState(0);
+import { Routes, Route } from 'react-router-dom'; // Import only Routes and Route
 
+// Import UI components
+import { Toaster } from '@/components/ui/toaster';
+
+// Layout import (ensure named import)
+import { MainLayout } from '@/components/layouts/MainLayout';
+
+// Import Page Components from the main 'pages' folder (Named Imports)
+import { HomePage } from '@/pages/HomePage';
+import { PacientesListPage } from '@/pages/PacientesListPage';
+import { DoctoresListPage } from '@/pages/DoctoresListPage';
+import { EnfermerasListPage } from '@/pages/EnfermerasListPage';
+import { CitasListPage } from '@/pages/CitasListPage';
+import { TratamientosListPage } from '@/pages/TratamientosListPage';
+import { DepartamentosListPage } from '@/pages/DepartamentosListPage';
+import { NotFoundPage } from '@/pages/NotFoundPage';
+
+// Import form pages later when created, e.g.:
+// import { PacienteFormPage } from '@/pages/PacienteFormPage';
+
+export default function App() { // Named export for App component
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900">
-      <div className="p-8 bg-gray-800 rounded-2xl shadow-lg text-center">
-      <h1 className="text-2xl font-semibold text-white mb-4">Tailwind + ShadCN Setup :&#41;</h1>
-        <h2 className="text-1xl font-semibold text-white mb-4">Counter App</h2>
+    <> {/* Use a Fragment or a simple div if needed, but often not necessary here */}
+      <Routes>
+        {/* All routes nested directly under MainLayout */}
+        <Route element={<MainLayout />}>
+          {/* Main Dashboard */}
+          <Route path="/" element={<HomePage />} />
 
-        <div className="flex items-center justify-center gap-4">
-          <Button
-            onClick={() => setCount((prev) => prev - 1)}
-            className="bg-red-600 hover:bg-red-700 transition-all px-6 py-2 rounded-lg"
-          >
-            -
-          </Button>
+          {/* Pacientes Routes */}
+          <Route path="/pacientes" element={<PacientesListPage />} />
+          {/* <Route path="/pacientes/nuevo" element={<PacienteFormPage mode="create" />} /> */}
+          {/* <Route path="/pacientes/editar/:id" element={<PacienteFormPage mode="edit" />} /> */}
 
-          <span className="text-3xl font-bold text-white">{count}</span>
+          {/* Doctores Routes */}
+          <Route path="/doctores" element={<DoctoresListPage />} />
+          {/* <Route path="/doctores/nuevo" element={<DoctorFormPage mode="create" />} /> */}
+          {/* <Route path="/doctores/editar/:id" element={<DoctorFormPage mode="edit" />} /> */}
 
-          <Button
-            onClick={() => setCount((prev) => prev + 1)}
-            className="bg-green-600 hover:bg-green-700 transition-all px-6 py-2 rounded-lg"
-          >
-            +
-          </Button>
-        </div>
-      </div>
-    </div>
+          {/* Enfermeras Routes */}
+          <Route path="/enfermeras" element={<EnfermerasListPage />} />
+          {/* <Route path="/enfermeras/nuevo" element={<EnfermeraFormPage mode="create" />} /> */}
+          {/* <Route path="/enfermeras/editar/:id" element={<EnfermeraFormPage mode="edit" />} /> */}
+
+          {/* Citas Routes */}
+          <Route path="/citas" element={<CitasListPage />} />
+          {/* <Route path="/citas/nueva" element={<CitaFormPage mode="create" />} /> */}
+          {/* <Route path="/citas/editar/:id" element={<CitaFormPage mode="edit" />} /> */}
+
+          {/* Tratamientos Routes */}
+          <Route path="/tratamientos" element={<TratamientosListPage />} />
+          {/* <Route path="/tratamientos/nuevo" element={<TratamientoFormPage mode="create" />} /> */}
+          {/* <Route path="/tratamientos/editar/:id" element={<TratamientoFormPage mode="edit" />} /> */}
+
+          {/* Departamentos Routes */}
+          <Route path="/departamentos" element={<DepartamentosListPage />} />
+          {/* <Route path="/departamentos/nuevo" element={<DepartamentoFormPage mode="create" />} /> */}
+          {/* <Route path="/departamentos/editar/:id" element={<DepartamentoFormPage mode="edit" />} /> */}
+
+          {/* Add other routes like settings if needed */}
+          {/* <Route path="/configuracion" element={<SettingsPage />} /> */}
+
+        </Route> {/* End MainLayout Routes */}
+
+        {/* Catch-all Not Found Route */}
+        <Route path="*" element={<NotFoundPage />} />
+
+      </Routes>
+
+      {/* Keep Toaster here as it's often useful at the App level */}
+      <Toaster />
+    </>
   );
 }
