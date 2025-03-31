@@ -43,7 +43,7 @@ export default function App() { // Named export for App component
           {/* Pacientes Routes */}
           <Route path="/pacientes" element={<PacientesListPage />} />
           <Route path="/pacientes/nuevo" element={<PacienteFormPage/>} /> 
-          {/* <Route path="/pacientes/editar/:id" element={<PacienteFormPage mode="edit" />} /> */}
+          <Route path="/pacientes/editar/:id" element={<PacienteFormPage/>} />
 
           {/* Doctores Routes */}
           <Route path="/doctores" element={<DoctoresListPage />} />

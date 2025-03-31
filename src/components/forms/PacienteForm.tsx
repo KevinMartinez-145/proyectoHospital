@@ -6,16 +6,16 @@ import { es } from 'date-fns/locale';
 import { cn } from "@/lib/utils";
 
 // --- Imports ---
-import { pacienteFormSchema, PacienteFormValidationData } from '@/schemas/pacienteSchema'; // Adjust path
+import { pacienteFormSchema, PacienteFormValidationData } from '@/schemas/pacienteSchema';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea"; // Import Textarea
-import { Calendar } from "@/components/ui/calendar"; // Import Calendar
+import { Textarea } from "@/components/ui/textarea";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"; // Import Popover components
+} from "@/components/ui/popover";
 import {
   Form,
   FormControl,
@@ -25,51 +25,51 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CalendarIcon, Loader2 } from 'lucide-react'; // Icons
+import { CalendarIcon, Loader2, XCircle } from 'lucide-react';
 
 // --- Component Props ---
 interface PacienteFormProps {
-  // Function to call when the validated form is submitted
   onSubmit: (data: PacienteFormValidationData) => void;
-  // Optional initial data for editing
   initialData?: Partial<PacienteFormValidationData>;
-  // Flag to disable form during submission
   isSubmitting?: boolean;
-  // Text for the submit button (e.g., "Crear", "Actualizar")
   submitButtonText?: string;
+  onCancel?: () => void;
 }
 
 export function PacienteForm({
   onSubmit,
   initialData,
   isSubmitting = false,
-  submitButtonText = "Guardar"
+  submitButtonText = "Guardar",
+  onCancel,
 }: PacienteFormProps) {
 
   // --- React Hook Form Setup ---
   const form = useForm<PacienteFormValidationData>({
     resolver: zodResolver(pacienteFormSchema),
-    defaultValues: initialData || { // Use initialData or empty defaults
+    defaultValues: initialData || {
       nombre: '',
       apellido: '',
-      fecha_nacimiento: undefined, // Important: Initialize date as undefined or null
+      fecha_nacimiento: undefined,
       direccion: '',
       telefono: '',
       correo_electronico: '',
       historia_medica: '',
     },
+    resetOptions: {
+        keepDirtyValues: false,
+    },
   });
 
   // --- Form JSX ---
   return (
-    // Provide form context to Shadcn components
     <Form {...form}>
-      {/* Use form.handleSubmit to trigger validation before calling our onSubmit */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {/* Grid layout for basic info */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Nombre */}
-          <FormField
+          {/* ... (Nombre, Apellido fields remain the same) ... */}
+           {/* Nombre */}
+           <FormField
             control={form.control}
             name="nombre"
             render={({ field }) => (
@@ -98,55 +98,101 @@ export function PacienteForm({
             )}
           />
 
+
           {/* Fecha Nacimiento */}
           <FormField
-            control={form.control}
-            name="fecha_nacimiento"
-            render={({ field }) => (
-              <FormItem className="flex flex-col pt-2"> {/* Added pt-2 for alignment */}
-                <FormLabel>Fecha de Nacimiento <span className="text-red-500">*</span></FormLabel>
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant={"outline"}
-                        className={cn(
-                          "w-full pl-3 text-left font-normal",
-                          !field.value && "text-muted-foreground"
-                        )}
-                        disabled={isSubmitting}
-                      >
-                        {field.value ? (
-                          format(field.value, "PPP", { locale: es }) // Format displayed date
-                        ) : (
-                          <span>Selecciona una fecha</span>
-                        )}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar
-                      mode="single"
-                      selected={field.value}
-                      onSelect={field.onChange} // RHF expects the value directly
-                      disabled={(date) => // Disable future dates or very old dates
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                      captionLayout="dropdown-buttons" // Easier year/month navigation
-                      fromYear={1900}
-                      toYear={new Date().getFullYear()}
-                    />
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
-            )}
+  control={form.control}
+  name="fecha_nacimiento"
+  render={({ field }) => (
+    <FormItem className="flex flex-col pt-2">
+      <FormLabel>Fecha de Nacimiento <span className="text-red-500">*</span></FormLabel>
+      <Popover>
+        <PopoverTrigger asChild>
+          <FormControl>
+            <Button
+              variant={"outline"}
+              className={cn(
+                "w-full pl-3 text-left font-normal",
+                !field.value && "text-muted-foreground"
+              )}
+              disabled={isSubmitting}
+            >
+              {field.value ? (
+                format(field.value, "PPP", { locale: es })
+              ) : (
+                <span>Selecciona una fecha</span>
+              )}
+              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+            </Button>
+          </FormControl>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          {/* Custom header with separate month/year selectors outside Calendar component */}
+          <div className="p-3 flex justify-between items-center space-x-2">
+            <select 
+              value={field.value ? format(field.value, 'MMMM', { locale: es }) : format(new Date(), 'MMMM', { locale: es })}
+              onChange={(e) => {
+                const currentDate = field.value || new Date();
+                const monthIndex = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
+                  'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'].indexOf(e.target.value);
+                
+                if (monthIndex !== -1) {
+                  const newDate = new Date(currentDate);
+                  newDate.setMonth(monthIndex);
+                  field.onChange(newDate);
+                }
+              }}
+              className="border rounded p-1 text-sm"
+            >
+              {['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 
+                'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'].map(month => (
+                <option key={month} value={month}>{month}</option>
+              ))}
+            </select>
+            
+            <select
+              value={field.value ? format(field.value, 'yyyy') : format(new Date(), 'yyyy')}
+              onChange={(e) => {
+                const currentDate = field.value || new Date();
+                const newDate = new Date(currentDate);
+                newDate.setFullYear(parseInt(e.target.value));
+                field.onChange(newDate);
+              }}
+              className="border rounded p-1 text-sm"
+            >
+              {Array.from({ length: new Date().getFullYear() - 1899 }, (_, i) => (
+                <option key={1900 + i} value={1900 + i}>{1900 + i}</option>
+              ))}
+            </select>
+          </div>
+          
+          <Calendar
+            mode="single"
+            selected={field.value}
+            onSelect={field.onChange}
+            disabled={(date) =>
+              date > new Date() || date < new Date("1900-01-01")
+            }
+            initialFocus
+            // Use buttons only for the built-in calendar navigation
+            captionLayout="buttons"
+            // Hide the default caption completely since we're using custom selectors
+            classNames={{
+              caption: "hidden",
+              caption_label: "hidden"
+            }}
+            fromYear={1900}
+            toYear={new Date().getFullYear()}
           />
-
-          {/* Correo Electrónico */}
-          <FormField
+        </PopoverContent>
+      </Popover>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+          {/* ... (Correo, Telefono, Direccion fields remain the same) ... */}
+           {/* Correo Electrónico */}
+           <FormField
             control={form.control}
             name="correo_electronico"
             render={({ field }) => (
@@ -202,10 +248,9 @@ export function PacienteForm({
             <FormItem>
               <FormLabel>Historia Médica</FormLabel>
               <FormControl>
-                {/* Use Textarea for multi-line input */}
                 <Textarea
                   placeholder="Alergias, condiciones preexistentes, etc."
-                  className="resize-y min-h-[100px]" // Allow vertical resize
+                  className="resize-y min-h-[100px]"
                   {...field}
                   value={field.value ?? ''}
                   disabled={isSubmitting}
@@ -217,8 +262,22 @@ export function PacienteForm({
           )}
         />
 
-        {/* Submit Button */}
-        <div className="flex justify-end">
+        {/* --- Action Buttons --- */}
+        <div className="flex justify-end space-x-3 pt-4">
+          {/* Cancel Button */}
+          {onCancel && (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onCancel}
+              disabled={isSubmitting}
+            >
+               <XCircle className="mr-2 h-4 w-4" />
+              Cancelar
+            </Button>
+          )}
+
+          {/* Submit Button */}
           <Button type="submit" disabled={isSubmitting}>
             {isSubmitting ? (
               <>
