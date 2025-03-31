@@ -76,7 +76,6 @@ export function PacienteFormPage() {
   // --- Submit Handler for CREATE ---
   const handleCreateSubmit = (formData: PacienteFormValidationData) => {
     const apiData = transformFormDataForApi(formData);
-    console.log("Submitting (Create):", apiData);
     createPacienteMutation.mutate(apiData, {
       onSuccess: () => {
         navigate('/pacientes');
