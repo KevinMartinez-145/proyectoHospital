@@ -8,7 +8,10 @@ import { Toaster } from '@/components/ui/toaster';
 // Layout import (ensure named import)
 import { MainLayout } from '@/components/layouts/MainLayout';
 
+import { ProtectedRoute } from './components/common/ProtectedRoute';
+
 // Import Page Components from the main 'pages' folder (Named Imports)
+import { LoginPage } from './pages/LoginPage';
 import { HomePage } from '@/pages/HomePage';
 import { PacientesListPage } from '@/pages/PacientesListPage';
 import { DoctoresListPage } from '@/pages/DoctoresListPage';
@@ -17,6 +20,7 @@ import { CitasListPage } from '@/pages/CitasListPage';
 import { TratamientosListPage } from '@/pages/TratamientosListPage';
 import { DepartamentosListPage } from '@/pages/DepartamentosListPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
+import { PacienteFormPage } from './pages/PacienteFormPage';
 
 // Import form pages later when created, e.g.:
 // import { PacienteFormPage } from '@/pages/PacienteFormPage';
@@ -25,14 +29,20 @@ export default function App() { // Named export for App component
   return (
     <> {/* Use a Fragment or a simple div if needed, but often not necessary here */}
       <Routes>
+        {/* --- Public Route --- */}
+        {/* The login page is accessible without authentication */}
+        <Route path="/login" element={<LoginPage />} />
         {/* All routes nested directly under MainLayout */}
+        <Route element={<ProtectedRoute />}>
+          {/* Routes nested inside ProtectedRoute require authentication */}
+          {/* This route renders the MainLayout (sidebar, etc.) */}
         <Route element={<MainLayout />}>
           {/* Main Dashboard */}
           <Route path="/" element={<HomePage />} />
 
           {/* Pacientes Routes */}
           <Route path="/pacientes" element={<PacientesListPage />} />
-          {/* <Route path="/pacientes/nuevo" element={<PacienteFormPage mode="create" />} /> */}
+          <Route path="/pacientes/nuevo" element={<PacienteFormPage/>} /> 
           {/* <Route path="/pacientes/editar/:id" element={<PacienteFormPage mode="edit" />} /> */}
 
           {/* Doctores Routes */}
@@ -64,6 +74,7 @@ export default function App() { // Named export for App component
           {/* <Route path="/configuracion" element={<SettingsPage />} /> */}
 
         </Route> {/* End MainLayout Routes */}
+        </Route>
 
         {/* Catch-all Not Found Route */}
         <Route path="*" element={<NotFoundPage />} />
