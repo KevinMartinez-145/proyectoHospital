@@ -4,6 +4,7 @@ import { z } from 'zod';
 const PHONE_REGEX = /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,15}$/;
 const NAME_REGEX = /^[a-zA-ZÀ-ÿ\u00f1\u00d1\s'-]+$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const HORARIO_REGEX = /^(?:[01]\d|2[0-3]):[0-5]\d-(?:[01]\d|2[0-3]):[0-5]\d$/;
 
 export const doctorFormSchema = z.object({
   nombre: z.string()
@@ -31,7 +32,12 @@ export const doctorFormSchema = z.object({
       message: "Formato de teléfono inválido. Ejemplo: +34 600 123 456"
     })
     .optional()
-    .or(z.literal("")),
+    .or(z.literal("")), // Allows empty string
+
+    horario_atencion: z.string()
+    .min(5, { message: "El horario de atención es requerido (ej. 08:00-16:00)" })
+    .max(50, { message: "El horario no puede exceder 50 caracteres" })
+    .regex(HORARIO_REGEX, { message: "Formato inválido. Use HH:MM-HH:MM (ej. 09:00-17:00)"}),
 
   correo_electronico: z.string()
     .max(100, { message: "El correo no puede exceder 100 caracteres" })
@@ -39,13 +45,8 @@ export const doctorFormSchema = z.object({
       message: "Correo electrónico inválido. Ejemplo: usuario@dominio.com"
     })
     .optional()
-    .or(z.literal("")),
+    .or(z.literal("")), 
 
-  descripcion: z.string()
-    .min(5, { message: "La descripción debe tener al menos 5 caracteres" })
-    .max(2000, { message: "La descripción no puede exceder 2000 caracteres" })
-    .optional()
-    .or(z.literal("")),
 });
 
 export type DoctorFormValidationData = z.infer<typeof doctorFormSchema>;

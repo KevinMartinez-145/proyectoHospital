@@ -5,7 +5,6 @@ import { doctorFormSchema, DoctorFormValidationData } from '@/schemas/doctorSche
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -13,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormDescription,
+  FormDescription, // Keep if needed for optional fields
 } from "@/components/ui/form";
 import { Loader2, XCircle } from 'lucide-react';
 
@@ -39,9 +38,9 @@ export function DoctorForm({
       nombre: '',
       apellido: '',
       especialidad: '',
+      horario_atencion: '', // <-- ADDED default
       telefono: '',
       correo_electronico: '',
-      descripcion: '',
     },
     resetOptions: {
       keepDirtyValues: false,
@@ -51,6 +50,7 @@ export function DoctorForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* --- Adjusted Grid --- */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Nombre */}
           <FormField
@@ -97,6 +97,23 @@ export function DoctorForm({
             )}
           />
 
+          {/* --- ADDED Horario Atencion --- */}
+          <FormField
+            control={form.control}
+            name="horario_atencion"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Horario Atención <span className="text-red-500">*</span></FormLabel>
+                <FormControl>
+                  <Input placeholder="HH:MM-HH:MM (ej. 09:00-17:00)" {...field} disabled={isSubmitting} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          {/* --- END ADDED --- */}
+
+
           {/* Teléfono */}
           <FormField
             control={form.control}
@@ -128,29 +145,8 @@ export function DoctorForm({
               </FormItem>
             )}
           />
-        </div>
+        </div> {/* End Grid */}
 
-        {/* Descripción / Perfil Profesional */}
-        <FormField
-          control={form.control}
-          name="descripcion"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Descripción Profesional</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Experiencia, estudios, enfoque médico..."
-                  className="resize-y min-h-[100px]"
-                  {...field}
-                  value={field.value ?? ''}
-                  disabled={isSubmitting}
-                />
-              </FormControl>
-              <FormDescription>Opcional.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         {/* Botones de acción */}
         <div className="flex justify-end space-x-3 pt-4">
@@ -179,4 +175,9 @@ export function DoctorForm({
       </form>
     </Form>
   );
+
+
+
+
+  
 }

@@ -18,9 +18,11 @@ import { DoctoresListPage } from '@/pages/DoctoresListPage';
 import { EnfermerasListPage } from '@/pages/EnfermerasListPage';
 import { CitasListPage } from '@/pages/CitasListPage';
 import { TratamientosListPage } from '@/pages/TratamientosListPage';
+import { MedicamentosListPage } from '@/pages/MedicamentosListPage';
 import { DepartamentosListPage } from '@/pages/DepartamentosListPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { PacienteFormPage } from './pages/PacienteFormPage';
+import { DoctorFormPage } from './pages/DoctorFormPage';
 
 // Import form pages later when created, e.g.:
 // import { PacienteFormPage } from '@/pages/PacienteFormPage';
@@ -47,8 +49,8 @@ export default function App() { // Named export for App component
 
           {/* Doctores Routes */}
           <Route path="/doctores" element={<DoctoresListPage />} />
-          {/* <Route path="/doctores/nuevo" element={<DoctorFormPage mode="create" />} /> */}
-          {/* <Route path="/doctores/editar/:id" element={<DoctorFormPage mode="edit" />} /> */}
+          <Route path="/doctores/nuevo" element={<DoctorFormPage/>} /> 
+          <Route path="/doctores/editar/:id" element={<DoctorFormPage />} />
 
           {/* Enfermeras Routes */}
           <Route path="/enfermeras" element={<EnfermerasListPage />} />
@@ -65,6 +67,12 @@ export default function App() { // Named export for App component
           {/* <Route path="/tratamientos/nuevo" element={<TratamientoFormPage mode="create" />} /> */}
           {/* <Route path="/tratamientos/editar/:id" element={<TratamientoFormPage mode="edit" />} /> */}
 
+          {/* --- ADDED Medicamentos Route --- */}
+          <Route path="/medicamentos" element={<MedicamentosListPage />} />
+          {/* Add Medicamento form routes later */}
+          {/* <Route path="/medicamentos/nuevo" element={<MedicamentoFormPage />} /> */}
+          {/* <Route path="/medicamentos/editar/:id" element={<MedicamentoFormPage />} 
+          
           {/* Departamentos Routes */}
           <Route path="/departamentos" element={<DepartamentosListPage />} />
           {/* <Route path="/departamentos/nuevo" element={<DepartamentoFormPage mode="create" />} /> */}

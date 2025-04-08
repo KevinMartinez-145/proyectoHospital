@@ -18,6 +18,7 @@ import {
   CalendarDays,
   ClipboardList,
   Building,
+  Pill,
   ChevronsLeft, // Icon for collapse button
   ChevronsRight, // Icon for expand button
   type LucideIcon,
@@ -37,6 +38,7 @@ const mainNavLinks: NavLinkItem[] = [
   { path: '/enfermeras', label: 'Enfermeras', icon: UserPlus },
   { path: '/citas', label: 'Citas', icon: CalendarDays },
   { path: '/tratamientos', label: 'Tratamientos', icon: ClipboardList },
+  { path: '/medicamentos', label: 'Medicamentos', icon: Pill }, 
   { path: '/departamentos', label: 'Departmentos', icon: Building },
 ];
 

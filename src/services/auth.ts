@@ -4,7 +4,7 @@ import type { LoginRequest, LoginResponse } from '@/types/auth'; // Import types
 
 export const login = async (credentials: LoginRequest): Promise<LoginResponse> => {
   // Make the POST request using apiClient
-  const response = await apiClient.post<LoginResponse>('/auth/login', credentials);
+  const response = await apiClient.post<LoginResponse>('/usuarios/login', credentials);
   // Axios automatically throws for non-2xx status codes,
   // so we just return the data on success.
   return response.data;
