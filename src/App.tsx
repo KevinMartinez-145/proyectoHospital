@@ -23,6 +23,7 @@ import { DepartamentosListPage } from '@/pages/DepartamentosListPage';
 import { NotFoundPage } from '@/pages/NotFoundPage';
 import { PacienteFormPage } from './pages/PacienteFormPage';
 import { DoctorFormPage } from './pages/DoctorFormPage';
+import { EnfermeraFormPage } from './pages/EnfermeraFormPage';
 
 // Import form pages later when created, e.g.:
 // import { PacienteFormPage } from '@/pages/PacienteFormPage';
@@ -54,8 +55,8 @@ export default function App() { // Named export for App component
 
           {/* Enfermeras Routes */}
           <Route path="/enfermeras" element={<EnfermerasListPage />} />
-          {/* <Route path="/enfermeras/nuevo" element={<EnfermeraFormPage mode="create" />} /> */}
-          {/* <Route path="/enfermeras/editar/:id" element={<EnfermeraFormPage mode="edit" />} /> */}
+          <Route path="/enfermeras/nuevo" element={<EnfermeraFormPage  />} />
+          <Route path="/enfermeras/editar/:id" element={<EnfermeraFormPage />} /> 
 
           {/* Citas Routes */}
           <Route path="/citas" element={<CitasListPage />} />
@@ -72,7 +73,7 @@ export default function App() { // Named export for App component
           {/* Add Medicamento form routes later */}
           {/* <Route path="/medicamentos/nuevo" element={<MedicamentoFormPage />} /> */}
           {/* <Route path="/medicamentos/editar/:id" element={<MedicamentoFormPage />} 
-          
+
           {/* Departamentos Routes */}
           <Route path="/departamentos" element={<DepartamentosListPage />} />
           {/* <Route path="/departamentos/nuevo" element={<DepartamentoFormPage mode="create" />} /> */}
