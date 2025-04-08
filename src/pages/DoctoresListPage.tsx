@@ -7,8 +7,8 @@ import { es } from 'date-fns/locale';
 import { cn } from "@/lib/utils";
 
 // --- Hooks & Types ---
-import { useGetDoctores, useDeleteDoctor } from '@/hooks/useDoctores'; // Import Doctor hooks
-import type { Doctor } from '@/types/doctor'; // Import Doctor type
+import { useGetDoctores, useDeleteDoctor } from '@/hooks/useDoctores';
+import type { Doctor } from '@/types/doctor';
 
 // --- Shadcn UI Components ---
 import { Button } from "@/components/ui/button";
@@ -44,8 +44,8 @@ import {
 // --- Icons ---
 import {
   AlertCircle, Edit, Trash2, PlusCircle, Eye, Loader2,
-  Stethoscope, User, Mail, Phone, Clock, BadgeInfo, Briefcase, // Adjusted icons
-} from 'lucide-react'; // Use Stethoscope or Briefcase for specialty
+  Stethoscope, User, Mail, Phone, Clock, BadgeInfo, Briefcase,
+} from 'lucide-react';
 
 // --- Helper Component for Displaying Values in Dialog ---
 function DetailValue({ value, className = "" }: { value: string | number | null | undefined; className?: string }) {
@@ -96,103 +96,12 @@ export function DoctoresListPage() {
   };
 
   // --- Formatting Helpers ---
-  // Keep formatDateTime if createdAt/updatedAt are available and displayed
    const formatDateTime = (dateString: string | null | undefined): string => {
     if (!dateString) return 'N/A';
     try {
-      // Assuming API returns ISO string like '2023-10-27T10:00:00.000Z'
-      // Adjust parsing if the format is different
       return format(new Date(dateString), 'dd/MM/yyyy HH:mm', { locale: es });
     } catch { return 'Fecha inválida'; }
   };
-
-  // --- Rendering Logic for Table Body ---
-  const renderTableBody = () => {
-    if (isLoading) {
-      return (
-        <TableBody>
-          {[...Array(5)].map((_, i) => (
-            <TableRow key={`skel-doc-${i}`}>
-              <TableCell><Skeleton className="h-4 w-32" /></TableCell> {/* Nombre Apellido */}
-              <TableCell><Skeleton className="h-4 w-24" /></TableCell> {/* Especialidad */}
-              <TableCell><Skeleton className="h-4 w-32" /></TableCell> {/* Correo */}
-              <TableCell><Skeleton className="h-4 w-24" /></TableCell> {/* Telefono */}
-              <TableCell><Skeleton className="h-4 w-[76px]" /></TableCell> {/* Acciones */}
-            </TableRow>
-          ))}
-        </TableBody>
-      );
-    }
-
-    if (isError) {
-      return (
-        <TableBody>
-          <TableRow>
-            <TableCell colSpan={5} className="text-center text-red-600">
-              <div className="flex items-center justify-center gap-2 py-4">
-                <AlertCircle className="h-5 w-5" />
-                <span>Error al cargar los doctores: {error instanceof Error ? error.message : 'Error desconocido'}</span>
-              </div>
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      );
-    }
-
-    if (!doctores || doctores.length === 0) {
-      return (
-        <TableBody>
-          <TableRow>
-            <TableCell colSpan={5} className="text-center text-muted-foreground py-4">
-              No se encontraron doctores registrados.
-            </TableCell>
-          </TableRow>
-        </TableBody>
-      );
-    }
-
-    // Render actual doctor data
-    return (
-      <TableBody>
-        {doctores.map((doctor) => (
-          <TableRow key={doctor.id_doctor}>
-            <TableCell className="font-medium">{`${doctor.nombre} ${doctor.apellido}`}</TableCell>
-            <TableCell>{doctor.especialidad}</TableCell>
-            <TableCell>{doctor.correo_electronico || 'N/A'}</TableCell>
-            <TableCell>{doctor.telefono || 'N/A'}</TableCell>
-            <TableCell className="text-right">
-              <div className="flex justify-end space-x-1">
-                {/* View Details Button */}
-                <Button variant="ghost" size="icon" title="Ver Detalles" onClick={() => handleViewDetails(doctor)}>
-                  <Eye className="h-4 w-4" />
-                </Button>
-                {/* Edit Button */}
-                <Button variant="outline" size="icon" asChild title="Editar Doctor">
-                  <Link to={`/doctores/editar/${doctor.id_doctor}`}>
-                    <Edit className="h-4 w-4" />
-                  </Link>
-                </Button>
-                {/* Delete Button */}
-                <Button
-                  variant="destructive"
-                  size="icon"
-                  title="Eliminar Doctor"
-                  onClick={() => handleDeleteClick(doctor)}
-                  disabled={deleteDoctorMutation.isPending && doctorToDelete?.id_doctor === doctor.id_doctor}
-                >
-                  {deleteDoctorMutation.isPending && doctorToDelete?.id_doctor === doctor.id_doctor ? (
-                     <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : (
-                     <Trash2 className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-            </TableCell>
-          </TableRow>
-        ))}
-      </TableBody>
-    );
-  }; // End renderTableBody
 
   // --- Component Return JSX ---
   return (
@@ -220,17 +129,86 @@ export function DoctoresListPage() {
               <TableHead className="text-right w-[100px]">Acciones</TableHead>
             </TableRow>
           </TableHeader>
-          {/* Render table body based on state */}
-          {renderTableBody()}
+          {/* --- INLINED Table Body Logic --- */}
+          <TableBody>
+            {isLoading ? (
+              // Loading Skeletons
+              [...Array(5)].map((_, i) => (
+                <TableRow key={`skel-doc-${i}`}>
+                  <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-[76px]" /></TableCell>
+                </TableRow>
+              ))
+            ) : isError ? (
+              // Error Row
+              <TableRow>
+                <TableCell colSpan={5} className="text-center text-red-600">
+                  <div className="flex items-center justify-center gap-2 py-4">
+                    <AlertCircle className="h-5 w-5" />
+                    <span>Error al cargar los doctores: {error instanceof Error ? error.message : 'Error desconocido'}</span>
+                  </div>
+                </TableCell>
+              </TableRow>
+            ) : !doctores || doctores.length === 0 ? (
+              // No Data Row
+              <TableRow>
+                <TableCell colSpan={5} className="text-center text-muted-foreground py-4">
+                  No se encontraron doctores registrados.
+                </TableCell>
+              </TableRow>
+            ) : (
+              // Actual Data Rows
+              doctores.map((doctor) => (
+                <TableRow key={doctor.id_doctor}>
+                  <TableCell className="font-medium">{`${doctor.nombre} ${doctor.apellido}`}</TableCell>
+                  <TableCell>{doctor.especialidad}</TableCell>
+                  <TableCell>{doctor.correo_electronico || 'N/A'}</TableCell>
+                  <TableCell>{doctor.telefono || 'N/A'}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="flex justify-end space-x-1">
+                      {/* View Details Button */}
+                      <Button variant="ghost" size="icon" title="Ver Detalles" onClick={() => handleViewDetails(doctor)}>
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      {/* Edit Button */}
+                      <Button variant="outline" size="icon" asChild title="Editar Doctor">
+                        <Link to={`/doctores/editar/${doctor.id_doctor}`}>
+                          <Edit className="h-4 w-4" />
+                        </Link>
+                      </Button>
+                      {/* Delete Button */}
+                      <Button
+                        variant="destructive"
+                        size="icon"
+                        title="Eliminar Doctor"
+                        onClick={() => handleDeleteClick(doctor)}
+                        disabled={deleteDoctorMutation.isPending && doctorToDelete?.id_doctor === doctor.id_doctor}
+                      >
+                        {deleteDoctorMutation.isPending && doctorToDelete?.id_doctor === doctor.id_doctor ? (
+                           <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                           <Trash2 className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+          {/* --- END INLINED Table Body Logic --- */}
         </Table>
       </div>
 
       {/* --- Doctor Detail Dialog --- */}
       <Dialog open={isDetailDialogOpen} onOpenChange={setIsDetailDialogOpen}>
-        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto"> {/* Adjusted width */}
+        <DialogContent className="sm:max-w-lg max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-xl flex items-center gap-2">
-              <Stethoscope className="h-5 w-5 text-primary" /> {/* Doctor Icon */}
+              <Stethoscope className="h-5 w-5 text-primary" />
               Detalles del Doctor
             </DialogTitle>
             <DialogDescription>
@@ -238,7 +216,7 @@ export function DoctoresListPage() {
             </DialogDescription>
           </DialogHeader>
           {selectedDoctor && (
-            <div className="py-4 space-y-6"> {/* Adjusted spacing */}
+            <div className="py-4 space-y-6">
               {/* Personal & Professional Info Section */}
               <div className="space-y-3">
                 <h4 className="text-sm font-semibold text-primary border-b pb-1 mb-2">Información Profesional</h4>
@@ -257,8 +235,6 @@ export function DoctoresListPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3">
                   <div className="flex items-center gap-2"><Mail className="h-4 w-4 text-muted-foreground flex-shrink-0" /><span className="text-sm font-medium w-28 text-muted-foreground flex-shrink-0">Email:</span><DetailValue value={selectedDoctor.correo_electronico} className='truncate max-w-[150px]' /></div>
                   <div className="flex items-center gap-2"><Phone className="h-4 w-4 text-muted-foreground flex-shrink-0" /><span className="text-sm font-medium w-28 text-muted-foreground flex-shrink-0">Teléfono:</span><DetailValue value={selectedDoctor.telefono} /></div>
-                  {/* Add Dirección here if it becomes available in the API/Type */}
-                  {/* <div className="flex items-start gap-2 sm:col-span-2"><MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" /><span className="text-sm font-medium w-28 text-muted-foreground flex-shrink-0">Dirección:</span><DetailValue value={selectedDoctor.direccion} /></div> */}
                 </div>
               </div>
 
@@ -301,7 +277,6 @@ export function DoctoresListPage() {
             <AlertDialogAction
               onClick={handleConfirmDelete}
               disabled={deleteDoctorMutation.isPending}
-              // className="bg-destructive text-destructive-foreground hover:bg-destructive/90" // Optional: if default red isn't enough
             >
               {deleteDoctorMutation.isPending ? (
                 <> <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Eliminando... </>
