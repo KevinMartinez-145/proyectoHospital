@@ -24,6 +24,7 @@ import { NotFoundPage } from '@/pages/NotFoundPage';
 import { PacienteFormPage } from './pages/PacienteFormPage';
 import { DoctorFormPage } from './pages/DoctorFormPage';
 import { EnfermeraFormPage } from './pages/EnfermeraFormPage';
+import { CitaFormPage } from './pages/CitaFormPage';
 
 // Import form pages later when created, e.g.:
 // import { PacienteFormPage } from '@/pages/PacienteFormPage';
@@ -60,8 +61,8 @@ export default function App() { // Named export for App component
 
           {/* Citas Routes */}
           <Route path="/citas" element={<CitasListPage />} />
-          {/* <Route path="/citas/nueva" element={<CitaFormPage mode="create" />} /> */}
-          {/* <Route path="/citas/editar/:id" element={<CitaFormPage mode="edit" />} /> */}
+          <Route path="/citas/nueva" element={<CitaFormPage/>} />
+          <Route path="/citas/editar/:id" element={<CitaFormPage  />} /> 
 
           {/* Tratamientos Routes */}
           <Route path="/tratamientos" element={<TratamientosListPage />} />
