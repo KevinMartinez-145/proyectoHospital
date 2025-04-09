@@ -25,6 +25,7 @@ import { PacienteFormPage } from './pages/PacienteFormPage';
 import { DoctorFormPage } from './pages/DoctorFormPage';
 import { EnfermeraFormPage } from './pages/EnfermeraFormPage';
 import { CitaFormPage } from './pages/CitaFormPage';
+import { TratamientoFormPage } from './pages/TratamientoFormPage';
 
 // Import form pages later when created, e.g.:
 // import { PacienteFormPage } from '@/pages/PacienteFormPage';
@@ -66,8 +67,8 @@ export default function App() { // Named export for App component
 
           {/* Tratamientos Routes */}
           <Route path="/tratamientos" element={<TratamientosListPage />} />
-          {/* <Route path="/tratamientos/nuevo" element={<TratamientoFormPage mode="create" />} /> */}
-          {/* <Route path="/tratamientos/editar/:id" element={<TratamientoFormPage mode="edit" />} /> */}
+          <Route path="/tratamientos/nuevo" element={<TratamientoFormPage/>} />
+          <Route path="/tratamientos/editar/:id" element={<TratamientoFormPage />} /> 
 
           {/* --- ADDED Medicamentos Route --- */}
           <Route path="/medicamentos" element={<MedicamentosListPage />} />
