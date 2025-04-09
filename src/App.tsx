@@ -27,6 +27,7 @@ import { EnfermeraFormPage } from './pages/EnfermeraFormPage';
 import { CitaFormPage } from './pages/CitaFormPage';
 import { TratamientoFormPage } from './pages/TratamientoFormPage';
 import { MedicamentoFormPage } from './pages/MedicamentoFormPage';
+import { DepartamentoFormPage } from './pages/DepartamentoFormPage';
 
 // Import form pages later when created, e.g.:
 // import { PacienteFormPage } from '@/pages/PacienteFormPage';
@@ -78,11 +79,9 @@ export default function App() { // Named export for App component
 
           {/* Departamentos Routes */}
           <Route path="/departamentos" element={<DepartamentosListPage />} />
-          {/* <Route path="/departamentos/nuevo" element={<DepartamentoFormPage mode="create" />} /> */}
-          {/* <Route path="/departamentos/editar/:id" element={<DepartamentoFormPage mode="edit" />} /> */}
+          <Route path="/departamentos/nuevo" element={<DepartamentoFormPage/>} />
+          <Route path="/departamentos/editar/:id" element={<DepartamentoFormPage/>} /> 
 
-          {/* Add other routes like settings if needed */}
-          {/* <Route path="/configuracion" element={<SettingsPage />} /> */}
 
         </Route> {/* End MainLayout Routes */}
         </Route>
