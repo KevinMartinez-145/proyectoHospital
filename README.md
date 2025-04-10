@@ -1,43 +1,81 @@
-# Proyecto Web - React + TypeScript + Vite
+# 🏥 Proyecto Hospital - Gestión Clínica Web ✨
 
-## Descripción
-Este proyecto es una aplicación web desarrollada con React, TypeScript y Vite. La estructura del proyecto sigue buenas prácticas para el desarrollo modular y escalable.
+Aplicación web para la gestión de pacientes, doctores, enfermeras, citas, tratamientos, medicamentos y departamentos en un entorno clínico.
 
-## Tecnologías utilizadas
-- **React**: Librería para la construcción de interfaces de usuario.
-- **TypeScript**: Lenguaje de programación tipado que mejora la calidad del código.
-- **Vite**: Herramienta de construcción rápida y eficiente.
+## 🔧 Stack Tecnológico
 
-## Estructura del proyecto
-```
-├── src
-│   ├── componentes/  # Componentes reutilizables
-│   ├── paginas/      # Páginas principales
-│   ├── utilidades/   # Funciones y helpers
-│   ├── main.tsx      # Punto de entrada principal
-│   ├── App.tsx       # Componente principal
-│
-├── public/           # Archivos estáticos
-├── package.json      # Configuración de dependencias
-├── tsconfig.json     # Configuración de TypeScript
-├── vite.config.ts    # Configuración de Vite
-```
+*   **Core:** React 19+, TypeScript, Vite
+*   **UI:** Tailwind CSS, Shadcn/ui, Lucide Icons
+*   **Routing:** React Router DOM v7
+*   **Estado:** Zustand (Cliente Global), Tanstack Query (Servidor)
+*   **Formularios:** React Hook Form, Zod (Validación)
+*   **API:** Axios
+*   **Linting:** ESLint
 
-## Instalación y Ejecución
-1. Clonar el repositorio:
-   ```sh
-   git clone https://github.com/KevinMartinez-145/proyectoHospital.git
-   cd proyectoHospital
-   ```
-2. Instalar dependencias:
-   ```sh
-   npm install
-   ```
-3. Ejecutar el servidor de desarrollo:
-   ```sh
-   npm run dev
-   ```
+## 📁 Estructura del Proyecto
 
-## Configuración de ESLint
-Este proyecto incluye una configuración básica de ESLint para mantener un código limpio y consistente. Si deseas expandir la configuración, puedes habilitar reglas adicionales en `eslint.config.js`.
+kevinmartinez-145-proyectohospital/
+├── README.md
+├── components.json # Configuración Shadcn/ui
+├── package.json # Dependencias y scripts
+├── tailwind.config.js # Configuración Tailwind
+├── tsconfig.json # Configuración TypeScript
+├── vite.config.ts # Configuración Vite
+├── public/ # Archivos estáticos
+└── src/ # Código fuente de la aplicación
+├── App.tsx # Componente principal y rutas
+├── main.tsx # Punto de entrada de React
+├── components/ # UI reutilizable (common, forms, layouts, ui)
+├── hooks/ # Hooks personalizados (datos, auth, toast)
+├── lib/ # Utilidades core (apiClient, utils)
+├── pages/ # Componentes de página (list, form, login, etc.)
+├── schemas/ # Esquemas de validación Zod
+├── services/ # Funciones de interacción API
+├── stores/ # Estado global Zustand (auth)
+└── types/ # Definiciones de tipos TypeScript
 
+
+*(Usa el alias `@/*` para `src/*`)*
+
+## ⚙️ Primeros Pasos
+
+### Prerrequisitos
+
+*   Node.js (v18+)
+*   npm
+*   **API Backend Corriendo:** Asegúrate de que el servicio backend esté en ejecución (por defecto apunta a `http://localhost:3000`).
+
+### Instalación y Configuración
+
+1.  **Clonar:**
+    ```bash
+    git clone https://github.com/KevinMartinez-145/kevinmartinez-145-proyectohospital.git
+    cd kevinmartinez-145-proyectohospital
+    ```
+
+2.  **Instalar Dependencias:**
+    *(Nota: `--force` podría ser necesario debido a posibles conflictos menores, ej., con pre-releases de Tailwind v4 si se usan indirectamente)*
+    ```bash
+    npm install --force
+    ```
+
+3.  **Ejecutar Servidor de Desarrollo:**
+    ```bash
+    npm run dev
+    ```
+    Accede vía `http://localhost:5173` (o como indique Vite).
+
+## 🚀 Otros Comandos
+
+*   **Compilar para Producción:**
+    ```bash
+    npm run build
+    ```
+    (Salida en `dist/`)
+
+*   **Verificar Código (Lint):**
+    ```bash
+    npm run lint
+    ```
+
+---
