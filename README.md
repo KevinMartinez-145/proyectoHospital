@@ -14,6 +14,7 @@ Aplicación web para la gestión de pacientes, doctores, enfermeras, citas, trat
 
 ## 📁 Estructura del Proyecto
 
+```
 kevinmartinez-145-proyectohospital/
 ├── README.md
 ├── components.json              # Configuración Shadcn/ui
@@ -33,8 +34,7 @@ kevinmartinez-145-proyectohospital/
     ├── services/              # Funciones de interacción API
     ├── stores/                # Estado global Zustand (auth)
     └── types/                 # Definiciones de tipos TypeScript
-
-
+```
 
 *(Usa el alias `@/*` para `src/*`)*
 
@@ -78,5 +78,3 @@ kevinmartinez-145-proyectohospital/
     ```bash
     npm run lint
     ```
-
----
